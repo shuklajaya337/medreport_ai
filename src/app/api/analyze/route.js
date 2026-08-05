@@ -5,23 +5,26 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export async function POST(request) {
   try {
-    const { reportText, language, reportType } = await request.json();
+    const formData = await request.formData();
+    const reportText = formData.get("reportText") || "";
+    const language = formData.get("language") || "english";
+    const reportType = formData.get("reportType") || "General";
+    const imageFile = formData.get("image");
 
-    if (!reportText || reportText.trim() === "") {
+    if (!reportText.trim() && !imageFile) {
       return NextResponse.json(
-        { error: "Report text is required" },
+        { error: "Report text or image is required" },
         { status: 400 }
       );
     }
 
     const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
 
-    const prompt = `Respond in ${language === "hindi" ? "Hindi (Devanagari script)" : "English"} language.
-    This is a ${reportType} type medical report.
+    const promptText = `Respond in ${language === "hindi" ? "Hindi (Devanagari script)" : "English"} language.
 
-    Tum ek medical report explainer ho. User ne ye lab report values di hain:
+This is a ${reportType} type medical report.
 
-
+Tum ek medical report explainer ho. User ne ye lab report values di hain (text ya image se):
 
 ${reportText}
 
@@ -49,7 +52,24 @@ IMPORTANT: Sirf valid JSON format mein respond karo, koi extra text nahi. Format
   "doctorQuestions": ["sawaal 1", "sawaal 2", "sawaal 3"]
 }`;
 
-    const result = await model.generateContent(prompt);
+    let contentParts = [promptText];
+
+    if (imageFile) {
+      const bytes = await imageFile.arrayBuffer();
+      const base64Image = Buffer.from(bytes).toString("base64");
+
+      contentParts = [
+        {
+          inlineData: {
+            data: base64Image,
+            mimeType: imageFile.type,
+          },
+        },
+        promptText,
+      ];
+    }
+
+    const result = await model.generateContent(contentParts);
     const responseText = result.response.text();
 
     const cleanedText = responseText.replace(/```json|```/g, "").trim();
