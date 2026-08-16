@@ -13,9 +13,9 @@ export default function Home() {
 
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800">
-        <span className="font-bold text-lg text-black dark:text-white">
+        <Link href="/" className="font-bold text-lg text-black dark:text-white">
           MedReport<span className="text-blue-600">AI</span>
-        </span>
+        </Link>
       </nav>
 
       {/* Landing Section */}

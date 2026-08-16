@@ -1,6 +1,9 @@
 # MedReport AI 🩺
 
 An AI-powered web app that explains lab report values in simple, easy-to-understand language — with color-coded results, multilingual support, and photo upload.
+## 📸 Preview
+
+![MedReport AI Preview](./preview.png)
 
 
 ## 🔗 Live Demo

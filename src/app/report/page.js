@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MouseGlow } from "@/components/ui/mouse-glow";
 import { GlowOrb } from "@/components/ui/glow-orb";
+import Link from "next/link";
 
 export default function ReportPage() {
   const [reportText, setReportText] = useState("");
@@ -83,9 +84,9 @@ export default function ReportPage() {
 
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800">
-        <span className="font-bold text-lg text-black dark:text-white">
-          MedReport<span className="text-blue-600">AI</span>
-        </span>
+        <Link href="/" className="font-bold text-lg text-black dark:text-white">
+            MedReport<span className="text-blue-600">AI</span>
+        </Link>
       </nav>
 
       <section
