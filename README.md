@@ -2,11 +2,10 @@
 
 An AI-powered web app that explains lab report values in simple, easy-to-understand language — with color-coded results, multilingual support, and photo upload.
 
-## 🔗 Live Demo
 
 ## 🔗 Live Demo
 
-[https://medreport-ai-smoky.vercel.app](https://medreport-ai-smoky.vercel.app)
+[https://medreport-ai-gamma.vercel.app](https://medreport-ai-gamma.vercel.app)
 
 ## ✨ Features
 
