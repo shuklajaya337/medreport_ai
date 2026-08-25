@@ -7,7 +7,11 @@ export function MouseGlow() {
   const ringRef = useRef(null);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
+  let rafId = null;
+
+  const handleMouseMove = (e) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
       if (dotRef.current) {
         dotRef.current.style.left = `${e.clientX}px`;
         dotRef.current.style.top = `${e.clientY}px`;
@@ -16,11 +20,16 @@ export function MouseGlow() {
         ringRef.current.style.left = `${e.clientX}px`;
         ringRef.current.style.top = `${e.clientY}px`;
       }
-    };
+      rafId = null;
+    });
+  };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  window.addEventListener("mousemove", handleMouseMove);
+  return () => {
+    window.removeEventListener("mousemove", handleMouseMove);
+    if (rafId) cancelAnimationFrame(rafId);
+  };
+}, []);
 
   return (
     <>
