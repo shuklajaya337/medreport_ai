@@ -198,10 +198,11 @@ export default function ReportPage() {
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
+                  <label htmlFor="report-category" className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
                     Report Category
                   </label>
                   <select
+                    id="report-category"
                     value={reportType}
                     onChange={(e) => setReportType(e.target.value)}
                     className="w-full p-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -246,10 +247,11 @@ export default function ReportPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
+                  <label htmlFor="patient-age" className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
                     Patient Age (ML Risk Calibration)
                   </label>
                   <input
+                    id="patient-age"
                     type="number"
                     min="18"
                     max="100"
@@ -653,14 +655,15 @@ export default function ReportPage() {
             <div className="w-full p-6 md:p-8 rounded-3xl bg-neutral-50/70 dark:bg-neutral-900/60 border border-neutral-200 dark:border-neutral-800 backdrop-blur-md shadow-xl mb-8">
               
               <div className="mb-6">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
-                  Target Biomarker
-                </label>
-                <select
-                  value={forecastBiomarker}
-                  onChange={(e) => setForecastBiomarker(e.target.value)}
-                  className="w-full sm:w-72 p-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                <label htmlFor="target-biomarker" className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
+                    Target Biomarker
+                  </label>
+                  <select
+                    id="target-biomarker"
+                    value={forecastBiomarker}
+                    onChange={(e) => setForecastBiomarker(e.target.value)}
+                    className="w-full sm:w-72 p-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
                   <option value="hba1c">HbA1c Glycated Hemoglobin (%)</option>
                   <option value="glucose">Fasting Blood Glucose (mg/dL)</option>
                   <option value="total cholesterol">Total Cholesterol (mg/dL)</option>
@@ -694,6 +697,7 @@ export default function ReportPage() {
                         type="date"
                         value={row.date}
                         onChange={(e) => updateHistoryRow(idx, "date", e.target.value)}
+                        aria-label={`Timepoint ${idx + 1} date`}
                         className="p-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-xs text-neutral-900 dark:text-white font-mono"
                       />
                       <input
@@ -701,6 +705,7 @@ export default function ReportPage() {
                         step="0.1"
                         value={row.value}
                         onChange={(e) => updateHistoryRow(idx, "value", e.target.value)}
+                        aria-label={`Timepoint ${idx + 1} value`}
                         className="w-32 p-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-xs text-neutral-900 dark:text-white font-mono"
                         placeholder="Value"
                       />
