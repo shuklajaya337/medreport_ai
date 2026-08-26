@@ -1,6 +1,12 @@
 # MedReport AI 🩺
 
 An AI-powered web app that explains lab report values in simple, easy-to-understand language — with color-coded results, multilingual support, and photo upload.
+
+
+## 📋 Project Brief
+
+MedReport AI solves the problem of patients receiving lab reports full of medical jargon they can't interpret on their own — terms like "TSH," "HbA1c," or "LDL" mean little without a doctor present to explain them. It's built for everyday patients, particularly those who may not have quick access to a doctor to walk through results, and who are more comfortable in English or Hindi. This idea was chosen because it's a genuinely useful, personal problem — an LLM is a strong fit for turning inconsistent, jargon-heavy report formats into consistent, plain-language explanations, rather than being used as a novelty chatbot layered onto an unrelated app.
+
 ## 📸 Preview
 
 ![MedReport AI Preview](./preview.png)
