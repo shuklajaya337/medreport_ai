@@ -40,8 +40,8 @@ export default function Home() {
         }}
       >
         <AuroraBackground>
-          <div className="relative flex flex-col gap-6 items-center justify-center px-4 pt-32 pb-20 min-h-screen text-center max-w-4xl mx-auto">
-            
+          <div className="relative flex flex-col gap-6 items-center justify-center px-4 pt-32 pb-20 min-h-screen text-center max-w-3xl mx-auto">
+
             {/* Pill Header */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/80 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm">
               <span>⚡</span>
@@ -55,10 +55,9 @@ export default function Home() {
               </span>
             </h1>
 
-            <p className="text-base md:text-xl text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
-              Autonomous multi-agent clinical pipeline combining <strong>predictive ML risk models</strong>, 
-              <strong> Explainable AI (SHAP)</strong>, <strong>RAG clinical guidelines</strong>, and an 
-              <strong> AI Safety Critic</strong> to demystify complex lab results.
+            <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-300 max-w-xl leading-relaxed">
+              Upload a lab report and get a clear, plain-language explanation of what it means —
+              backed by real ML risk models and clinical guidelines.
             </p>
 
             {/* CTAs */}
@@ -69,44 +68,54 @@ export default function Home() {
                 </button>
               </Link>
             </div>
-
-            {/* Data Science Architecture Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-12 text-left">
-              <div className="p-5 rounded-2xl bg-white/70 dark:bg-neutral-900/70 border border-neutral-200 dark:border-neutral-800 backdrop-blur-md">
-                <div className="text-2xl mb-2">🤖 × 🤖</div>
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Multi-Agent AI×AI Loop</h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                  Extraction agent, clinical synthesis, and autonomous peer-review AI safety auditor.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white/70 dark:bg-neutral-900/70 border border-neutral-200 dark:border-neutral-800 backdrop-blur-md">
-                <div className="text-2xl mb-2">📊</div>
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Predictive ML Risk Scoring</h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                  Supervised Gradient Boosting models for 10-Yr Cardiovascular and Diabetes risk stratification.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white/70 dark:bg-neutral-900/70 border border-neutral-200 dark:border-neutral-800 backdrop-blur-md">
-                <div className="text-2xl mb-2">🎯</div>
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Explainable AI (SHAP)</h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                  Marginal feature contribution rankings showing which biomarkers drive clinical risk.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white/70 dark:bg-neutral-900/70 border border-neutral-200 dark:border-neutral-800 backdrop-blur-md">
-                <div className="text-2xl mb-2">📈</div>
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Biomarker Forecasting</h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                  Longitudinal time-series trajectory estimation with 3m/6m predictive velocity projections.
-                </p>
-              </div>
-            </div>
-
           </div>
         </AuroraBackground>
+      </div>
+
+      {/* Under the Hood — technical architecture, below the fold */}
+      <div className="bg-white dark:bg-black py-20 px-4 border-t border-neutral-200 dark:border-neutral-800">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-center text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-50 mb-2">
+            What's under the hood
+          </h2>
+          <p className="text-center text-sm md:text-base text-neutral-500 dark:text-neutral-400 mb-10 max-w-xl mx-auto">
+            A multi-agent pipeline combining machine learning, explainable AI, and clinical evidence retrieval.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <div className="text-2xl mb-2">🤖 × 🤖</div>
+              <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Multi-Agent AI×AI Loop</h3>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                Extraction, synthesis, and an autonomous safety-auditor agent that reviews the AI's own output.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <div className="text-2xl mb-2">📊</div>
+              <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Predictive ML Risk Scoring</h3>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                Trained models estimate cardiovascular and diabetes risk from your report values.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <div className="text-2xl mb-2">🎯</div>
+              <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Explainable AI (SHAP)</h3>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                Shows exactly which biomarkers are driving your risk score, and by how much.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <div className="text-2xl mb-2">📈</div>
+              <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">Biomarker Forecasting</h3>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                Projects where a biomarker is trending over the next 3–6 months.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
