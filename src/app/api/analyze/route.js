@@ -37,10 +37,11 @@ export async function POST(request) {
         fastApiFormData.append("image", imageFile);
       }
 
-      const pyResponse = await fetch("http://127.0.0.1:8000/api/analyze-agentic", {
+      const pythonBackendUrl = process.env.PYTHON_BACKEND_URL || "http://127.0.0.1:8000";
+      const pyResponse = await fetch(`${pythonBackendUrl}/api/analyze-agentic`, {
         method: "POST",
         body: fastApiFormData,
-        signal: AbortSignal.timeout(3500)
+        signal: AbortSignal.timeout(8000)
       });
 
       if (pyResponse.ok) {
