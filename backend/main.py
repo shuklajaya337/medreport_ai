@@ -20,9 +20,14 @@ app = FastAPI(
 )
 
 # Enable CORS for Next.js frontend
+# Set FRONTEND_URL in production (e.g. https://medreport-ai-gamma.vercel.app).
+# Falls back to "*" for local development convenience.
+_frontend_url = os.environ.get("FRONTEND_URL", "")
+_allowed_origins = [_frontend_url] if _frontend_url else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -80,7 +85,7 @@ async def analyze_agentic_report(
         report_text=reportText,
         language=language,
         report_type=reportType,
-        patient_age=patient_age,
+        patient_age=patientAge,
         image_bytes=image_bytes,
         image_mime=image_mime
     )

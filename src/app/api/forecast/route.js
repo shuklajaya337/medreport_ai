@@ -8,11 +8,12 @@ export async function POST(request) {
 
     // Try calling Python service
     try {
-      const pyRes = await fetch("http://127.0.0.1:8000/api/forecast-biomarkers", {
+      const pythonBackendUrl = process.env.PYTHON_BACKEND_URL || "http://127.0.0.1:8000";
+      const pyRes = await fetch(`${pythonBackendUrl}/api/forecast-biomarkers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ biomarker, history }),
-        signal: AbortSignal.timeout(2000)
+        signal: AbortSignal.timeout(8000)
       });
       if (pyRes.ok) {
         const pyData = await pyRes.json();
