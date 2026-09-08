@@ -16,6 +16,7 @@ export default function ReportPage() {
   const [patientAge, setPatientAge] = useState(48);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
 
   // Time-Series Forecasting State
   const [forecastBiomarker, setForecastBiomarker] = useState("hba1c");
@@ -348,192 +349,12 @@ export default function ReportPage() {
             {/* RESULTS SECTION */}
             {result && (
               <div className="w-full max-w-4xl mt-12 flex flex-col gap-8">
-                
-                {/* 1. MULTI-AGENT EXECUTION TRACE LOGS */}
-                {result.pipelineTraces && (
-                  <div className="p-6 rounded-3xl bg-neutral-900 border border-neutral-800 text-neutral-100 shadow-xl">
-                    <div className="flex items-center justify-between mb-4 border-b border-neutral-800 pb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-blue-400">🤖 × 🤖</span>
-                        <h2 className="font-bold text-sm uppercase tracking-wider text-neutral-200">
-                          Multi-Agent Execution Pipeline Trace
-                        </h2>
-                      </div>
-                      <span className="text-xs px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30 font-mono">
-                        Pipeline: Done (5 Steps)
-                      </span>
-                    </div>
 
-                    <div className="space-y-3">
-                      {result.pipelineTraces.map((trace, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-start gap-3 p-3 rounded-xl bg-neutral-950/60 border border-neutral-800/80 text-xs"
-                        >
-                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-[10px]">
-                            {idx + 1}
-                          </span>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <span className="font-semibold text-neutral-200">{trace.agent}</span>
-                              <span className="text-[10px] text-green-400 font-mono">COMPLETED</span>
-                            </div>
-                            <p className="text-neutral-400 mt-0.5">{trace.role}</p>
-                            {trace.outputSummary && (
-                              <p className="text-neutral-300 mt-1 font-mono text-[11px] bg-neutral-900/80 p-1.5 rounded">
-                                ➔ {trace.outputSummary}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* 2. AI SAFETY CRITIC AUDIT BADGE */}
-                {result.aiSafetyAudit && (
-                  <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-950/40 to-neutral-900 border border-emerald-500/30 shadow-lg">
-                    <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-emerald-400 text-lg">🛡️</span>
-                        <h3 className="font-bold text-sm text-emerald-400 uppercase tracking-wider">
-                          Autonomous AI Safety Critic Audit (AI Reviewing AI)
-                        </h3>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold font-mono">
-                          Safety Score: {result.aiSafetyAudit.safetyScore}%
-                        </span>
-                        <span className="text-xs px-3 py-1 rounded-full bg-neutral-800 text-neutral-300 border border-neutral-700 font-mono">
-                          Hallucination Index: {result.aiSafetyAudit.hallucinationRisk}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-xs text-neutral-300 leading-relaxed">
-                      {result.aiSafetyAudit.auditRemarks}
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 pt-3 border-t border-emerald-900/40">
-                      {result.aiSafetyAudit.checksPassed?.map((chk, i) => (
-                        <div key={i} className="flex items-center gap-2 text-[11px] text-emerald-300/90">
-                          <span>✓</span>
-                          <span>{chk}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* 3. PREDICTIVE SUPERVISED ML RISK STRATIFICATION */}
-                {result.mlRiskProfile && (
-                  <div className="p-6 rounded-3xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-md">
-                    <div className="flex items-center justify-between mb-6">
-                      <div>
-                        <h3 className="font-bold text-base text-neutral-900 dark:text-white">
-                          Predictive Machine Learning Risk Stratification
-                        </h3>
-                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                          Calibrated Gradient Boosting & Random Forest models trained on clinical cohorts
-                        </p>
-                      </div>
-                      <span className="text-xs font-mono px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 font-semibold">
-                        Supervised ML Engine
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                      {/* CVD Gauge */}
-                      <div className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                        <span className="text-xs text-neutral-500 uppercase font-semibold">10-Yr Cardiovascular Risk</span>
-                        <div className="text-2xl font-bold mt-1 text-neutral-900 dark:text-white">
-                          {result.mlRiskProfile.cardiovascularRisk.probability}%
-                        </div>
-                        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 ${
-                          result.mlRiskProfile.cardiovascularRisk.tier.includes("High")
-                            ? "bg-red-500/20 text-red-500 border border-red-500/30"
-                            : result.mlRiskProfile.cardiovascularRisk.tier.includes("Moderate")
-                            ? "bg-amber-500/20 text-amber-500 border border-amber-500/30"
-                            : "bg-green-500/20 text-green-500 border border-green-500/30"
-                        }`}>
-                          {result.mlRiskProfile.cardiovascularRisk.tier}
-                        </span>
-                      </div>
-
-                      {/* Diabetes Gauge */}
-                      <div className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                        <span className="text-xs text-neutral-500 uppercase font-semibold">Diabetes / Metabolic Risk</span>
-                        <div className="text-2xl font-bold mt-1 text-neutral-900 dark:text-white">
-                          {result.mlRiskProfile.diabetesMetabolicRisk.probability}%
-                        </div>
-                        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 ${
-                          result.mlRiskProfile.diabetesMetabolicRisk.tier.includes("High")
-                            ? "bg-red-500/20 text-red-500 border border-red-500/30"
-                            : result.mlRiskProfile.diabetesMetabolicRisk.tier.includes("Pre-Diabetic")
-                            ? "bg-amber-500/20 text-amber-500 border border-amber-500/30"
-                            : "bg-green-500/20 text-green-500 border border-green-500/30"
-                        }`}>
-                          {result.mlRiskProfile.diabetesMetabolicRisk.tier}
-                        </span>
-                      </div>
-
-                      {/* Overall Score */}
-                      <div className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                        <span className="text-xs text-neutral-500 uppercase font-semibold">Metabolic Health Index</span>
-                        <div className="text-2xl font-bold mt-1 text-blue-500">
-                          {result.mlRiskProfile.metabolicHealthScore.score} / 100
-                        </div>
-                        <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 bg-blue-500/10 text-blue-500 border border-blue-500/20">
-                          {result.mlRiskProfile.metabolicHealthScore.rating}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* SHAP EXPLAINABLE AI BREAKDOWN */}
-                    <div className="p-5 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-semibold text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
-                          🎯 Explainable AI (SHAP) Biomarker Attributions
-                        </h4>
-                        <span className="text-[10px] text-neutral-400 font-mono">Marginal Risk Impact</span>
-                      </div>
-
-                      <div className="space-y-2">
-                        {result.mlRiskProfile.cardiovascularRisk.featureAttributions?.slice(0, 5).map((feat, i) => (
-                          <div key={i} className="flex items-center gap-3 text-xs">
-                            <span className="w-36 font-medium text-neutral-700 dark:text-neutral-300 truncate">
-                              {feat.feature} ({feat.userValue})
-                            </span>
-                            <div className="flex-1 h-3 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden flex">
-                              {feat.direction === "RISK_ELEVATING" ? (
-                                <div
-                                  className="bg-red-500 h-full rounded-full"
-                                  style={{ width: `${Math.min(100, feat.impactMagnitude * 4)}%` }}
-                                ></div>
-                              ) : (
-                                <div
-                                  className="bg-emerald-500 h-full rounded-full ml-auto"
-                                  style={{ width: `${Math.min(100, feat.impactMagnitude * 4)}%` }}
-                                ></div>
-                              )}
-                            </div>
-                            <span className={`w-20 text-right font-mono font-bold text-[11px] ${
-                              feat.direction === "RISK_ELEVATING" ? "text-red-500" : "text-emerald-500"
-                            }`}>
-                              {feat.marginalEffectPercent > 0 ? `+${feat.marginalEffectPercent}%` : `${feat.marginalEffectPercent}%`}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                  </div>
-                )}
-
-                {/* 4. EXECUTIVE SUMMARY */}
+                {/* 1. EXECUTIVE SUMMARY — plain language, shown first */}
                 {result.reportAnalysis?.summary && (
                   <div className="p-6 rounded-3xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/80 shadow-md">
                     <h3 className="font-bold text-sm uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2">
-                      Clinical Executive Summary
+                      Summary
                     </h3>
                     <p className="text-sm md:text-base leading-relaxed text-neutral-800 dark:text-neutral-200">
                       {result.reportAnalysis.summary}
@@ -541,11 +362,11 @@ export default function ReportPage() {
                   </div>
                 )}
 
-                {/* 5. ITEMIZED BIOMARKER BREAKDOWN */}
+                {/* 2. ITEMIZED BIOMARKER BREAKDOWN — the main, plain-language result */}
                 {result.reportAnalysis?.results && (
                   <div className="space-y-4">
                     <h3 className="font-bold text-lg text-neutral-900 dark:text-white">
-                      Itemized Biomarker Breakdown
+                      Your Report, Explained
                     </h3>
 
                     {result.reportAnalysis.results.map((item, index) => {
@@ -570,7 +391,7 @@ export default function ReportPage() {
                             </span>
                           </div>
                           <p className="text-xs mb-2 text-neutral-600 dark:text-neutral-400 font-mono">
-                            Patient Value: <strong className="text-neutral-900 dark:text-white">{item.value}</strong> | Reference Range: {item.normalRange}
+                            Your Value: <strong className="text-neutral-900 dark:text-white">{item.value}</strong> | Normal Range: {item.normalRange}
                           </p>
                           <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
                             {item.explanation}
@@ -581,45 +402,12 @@ export default function ReportPage() {
                   </div>
                 )}
 
-                {/* 6. CLINICAL RAG PRACTICE GUIDELINE CITATIONS */}
-                {result.clinicalEvidence && result.clinicalEvidence.length > 0 && (
-                  <div className="p-6 rounded-3xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-md">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-blue-500">📚</span>
-                      <h3 className="font-bold text-sm uppercase tracking-wider text-neutral-900 dark:text-white">
-                        Grounded Clinical Practice Evidence (RAG Corpus)
-                      </h3>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {result.clinicalEvidence.map((doc, idx) => (
-                        <div
-                          key={idx}
-                          className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-xs"
-                        >
-                          <span className="inline-block font-mono text-[10px] font-bold text-blue-500 px-2 py-0.5 rounded bg-blue-500/10 mb-2">
-                            {doc.id}
-                          </span>
-                          <h4 className="font-bold text-neutral-900 dark:text-white mb-1">
-                            {doc.title}
-                          </h4>
-                          <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-2">
-                            {doc.summary}
-                          </p>
-                          <div className="text-[10px] text-neutral-500 font-mono">
-                            Source: {doc.source} ({doc.evidenceGrade})
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* 7. DOCTOR INQUIRY PROMPTS */}
+                {/* 3. DOCTOR INQUIRY PROMPTS */}
                 {result.reportAnalysis?.doctorQuestions && result.reportAnalysis.doctorQuestions.length > 0 && (
                   <div className="p-6 rounded-3xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/80 shadow-md">
                     <h3 className="font-bold text-base text-purple-900 dark:text-purple-300 mb-3 flex items-center gap-2">
                       <span>🩺</span>
-                      <span>Targeted Discussion Questions for Your Doctor</span>
+                      <span>Questions to Ask Your Doctor</span>
                     </h3>
                     <ul className="space-y-2">
                       {result.reportAnalysis.doctorQuestions.map((q, idx) => (
@@ -632,9 +420,237 @@ export default function ReportPage() {
                   </div>
                 )}
 
+                {/* 4. SIMPLE ML RISK SUMMARY — numbers only, no jargon */}
+                {result.mlRiskProfile && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                      <span className="text-xs text-neutral-500 uppercase font-semibold">10-Yr Heart Disease Risk</span>
+                      <div className="text-2xl font-bold mt-1 text-neutral-900 dark:text-white">
+                        {result.mlRiskProfile.cardiovascularRisk.probability}%
+                      </div>
+                      <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 ${
+                        result.mlRiskProfile.cardiovascularRisk.tier.includes("High")
+                          ? "bg-red-500/20 text-red-500 border border-red-500/30"
+                          : result.mlRiskProfile.cardiovascularRisk.tier.includes("Moderate")
+                          ? "bg-amber-500/20 text-amber-500 border border-amber-500/30"
+                          : "bg-green-500/20 text-green-500 border border-green-500/30"
+                      }`}>
+                        {result.mlRiskProfile.cardiovascularRisk.tier}
+                      </span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                      <span className="text-xs text-neutral-500 uppercase font-semibold">Diabetes Risk</span>
+                      <div className="text-2xl font-bold mt-1 text-neutral-900 dark:text-white">
+                        {result.mlRiskProfile.diabetesMetabolicRisk.probability}%
+                      </div>
+                      <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 ${
+                        result.mlRiskProfile.diabetesMetabolicRisk.tier.includes("High")
+                          ? "bg-red-500/20 text-red-500 border border-red-500/30"
+                          : result.mlRiskProfile.diabetesMetabolicRisk.tier.includes("Pre-Diabetic")
+                          ? "bg-amber-500/20 text-amber-500 border border-amber-500/30"
+                          : "bg-green-500/20 text-green-500 border border-green-500/30"
+                      }`}>
+                        {result.mlRiskProfile.diabetesMetabolicRisk.tier}
+                      </span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                      <span className="text-xs text-neutral-500 uppercase font-semibold">Metabolic Health Score</span>
+                      <div className="text-2xl font-bold mt-1 text-blue-500">
+                        {result.mlRiskProfile.metabolicHealthScore.score}/100
+                      </div>
+                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                        {result.mlRiskProfile.metabolicHealthScore.rating}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* 5. COLLAPSIBLE — TECHNICAL / "UNDER THE HOOD" DETAILS */}
+                <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 overflow-hidden">
+                  <button
+                    onClick={() => setShowTechnicalDetails(!showTechnicalDetails)}
+                    className="w-full flex items-center justify-between px-6 py-4 bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                  >
+                    <span className="font-semibold text-sm text-neutral-700 dark:text-neutral-300">
+                      🔧 How this was computed (technical details)
+                    </span>
+                    <span className="text-neutral-400 text-xs">
+                      {showTechnicalDetails ? "Hide ▲" : "Show ▼"}
+                    </span>
+                  </button>
+
+                  {showTechnicalDetails && (
+                    <div className="p-6 flex flex-col gap-8 bg-white dark:bg-black">
+
+                      {/* MULTI-AGENT EXECUTION TRACE LOGS */}
+                      {result.pipelineTraces && (
+                        <div className="p-6 rounded-3xl bg-neutral-900 border border-neutral-800 text-neutral-100 shadow-xl">
+                          <div className="flex items-center justify-between mb-4 border-b border-neutral-800 pb-3">
+                            <div className="flex items-center gap-2">
+                              <span className="text-blue-400">🤖 × 🤖</span>
+                              <h2 className="font-bold text-sm uppercase tracking-wider text-neutral-200">
+                                Multi-Agent Execution Pipeline Trace
+                              </h2>
+                            </div>
+                            <span className="text-xs px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30 font-mono">
+                              Pipeline: Done (5 Steps)
+                            </span>
+                          </div>
+
+                          <div className="space-y-3">
+                            {result.pipelineTraces.map((trace, idx) => (
+                              <div
+                                key={idx}
+                                className="flex items-start gap-3 p-3 rounded-xl bg-neutral-950/60 border border-neutral-800/80 text-xs"
+                              >
+                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-[10px]">
+                                  {idx + 1}
+                                </span>
+                                <div className="flex-1">
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-semibold text-neutral-200">{trace.agent}</span>
+                                    <span className="text-[10px] text-green-400 font-mono">COMPLETED</span>
+                                  </div>
+                                  <p className="text-neutral-400 mt-0.5">{trace.role}</p>
+                                  {trace.outputSummary && (
+                                    <p className="text-neutral-300 mt-1 font-mono text-[11px] bg-neutral-900/80 p-1.5 rounded">
+                                      ➔ {trace.outputSummary}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* AI SAFETY CRITIC AUDIT BADGE */}
+                      {result.aiSafetyAudit && (
+                        <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-950/40 to-neutral-900 border border-emerald-500/30 shadow-lg">
+                          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+                            <div className="flex items-center gap-2">
+                              <span className="text-emerald-400 text-lg">🛡️</span>
+                              <h3 className="font-bold text-sm text-emerald-400 uppercase tracking-wider">
+                                Autonomous AI Safety Critic Audit (AI Reviewing AI)
+                              </h3>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold font-mono">
+                                Safety Score: {result.aiSafetyAudit.safetyScore}%
+                              </span>
+                              <span className="text-xs px-3 py-1 rounded-full bg-neutral-800 text-neutral-300 border border-neutral-700 font-mono">
+                                Hallucination Index: {result.aiSafetyAudit.hallucinationRisk}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-neutral-300 leading-relaxed">
+                            {result.aiSafetyAudit.auditRemarks}
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 pt-3 border-t border-emerald-900/40">
+                            {result.aiSafetyAudit.checksPassed?.map((chk, i) => (
+                              <div key={i} className="flex items-center gap-2 text-[11px] text-emerald-300/90">
+                                <span>✓</span>
+                                <span>{chk}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* PREDICTIVE SUPERVISED ML RISK STRATIFICATION — full SHAP detail */}
+                      {result.mlRiskProfile && (
+                        <div className="p-6 rounded-3xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-md">
+                          <div className="flex items-center justify-between mb-6">
+                            <div>
+                              <h3 className="font-bold text-base text-neutral-900 dark:text-white">
+                                Predictive Machine Learning Risk Stratification
+                              </h3>
+                              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                                Calibrated Gradient Boosting & Random Forest models trained on clinical cohorts
+                              </p>
+                            </div>
+                            <span className="text-xs font-mono px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 font-semibold">
+                              Supervised ML Engine
+                            </span>
+                          </div>
+
+                          {result.mlRiskProfile.cardiovascularRisk?.featureAttributions && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-4">
+                                <span className="text-red-500">🎯</span>
+                                <h4 className="font-bold text-sm text-neutral-900 dark:text-white">
+                                  Explainable AI (SHAP) Biomarker Attributions
+                                </h4>
+                                <span className="text-[10px] text-neutral-400 ml-auto">Marginal Risk Impact</span>
+                              </div>
+                              <div className="space-y-2">
+                                {result.mlRiskProfile.cardiovascularRisk.featureAttributions.slice(0, 5).map((feat, i) => (
+                                  <div key={i} className="flex items-center gap-3 text-xs">
+                                    <span className="w-36 font-medium text-neutral-700 dark:text-neutral-300 truncate">
+                                      {feat.feature} ({feat.userValue})
+                                    </span>
+                                    <div className="flex-1 h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
+                                      {feat.impactMagnitude > 0 && (
+                                        <div
+                                          className={`h-full rounded-full ${feat.direction === "RISK_ELEVATING" ? "bg-red-500" : "bg-emerald-500"}`}
+                                          style={{ width: `${Math.min(100, feat.impactMagnitude * 4)}%` }}
+                                        ></div>
+                                      )}
+                                    </div>
+                                    <span className={`w-20 text-right font-mono font-bold text-[11px] ${
+                                      feat.direction === "RISK_ELEVATING" ? "text-red-500" : "text-emerald-500"
+                                    }`}>
+                                      {feat.marginalEffectPercent > 0 ? `+${feat.marginalEffectPercent}%` : `${feat.marginalEffectPercent}%`}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* CLINICAL RAG PRACTICE GUIDELINE CITATIONS */}
+                      {result.clinicalEvidence && result.clinicalEvidence.length > 0 && (
+                        <div className="p-6 rounded-3xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-md">
+                          <div className="flex items-center gap-2 mb-4">
+                            <span className="text-blue-500">📚</span>
+                            <h3 className="font-bold text-sm uppercase tracking-wider text-neutral-900 dark:text-white">
+                              Grounded Clinical Practice Evidence (RAG Corpus)
+                            </h3>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {result.clinicalEvidence.map((doc, idx) => (
+                              <div
+                                key={idx}
+                                className="p-4 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-xs"
+                              >
+                                <span className="inline-block font-mono text-[10px] font-bold text-blue-500 px-2 py-0.5 rounded bg-blue-500/10 mb-2">
+                                  {doc.id}
+                                </span>
+                                <h4 className="font-bold text-neutral-900 dark:text-white mb-1">
+                                  {doc.title}
+                                </h4>
+                                <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-2">
+                                  {doc.summary}
+                                </p>
+                                <div className="text-[10px] text-neutral-500 font-mono">
+                                  Source: {doc.source} ({doc.evidenceGrade})
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                    </div>
+                  )}
+                </div>
+
               </div>
             )}
-
           </div>
         )}
 
